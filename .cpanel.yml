@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/ennvee1/demo.ennvee.com/
+    - /bin/cp index.html $DEPLOYPATH
