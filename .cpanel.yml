@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/ennvee1/demo.ennvee.com/
-    - /bin/cp index.html $DEPLOYPATH
+    - /usr/bin/rsync -av --delete --exclude='.git/' --exclude='.cpanel.yml' ./ $DEPLOYPATH
