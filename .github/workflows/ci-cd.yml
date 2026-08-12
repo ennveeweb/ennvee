@@ -1,0 +1,37 @@
+name: CI-CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to cPanel
+        env:
+          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+          CPANEL_USERNAME: ${{ secrets.CPANEL_USERNAME }}
+          CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
+          REPOSITORY_PATH: /home/ennvee1/repositories/ennvee
+        run: |
+          set -e
+
+          echo "Updating cPanel Git repository..."
+
+          curl --fail-with-body \
+            -H "Authorization: cpanel ${CPANEL_USERNAME}:${CPANEL_TOKEN}" \
+            "https://${CPANEL_HOST}:2083/execute/VersionControl/update?repository_root=${REPOSITORY_PATH}&branch=main"
+
+          echo "Deploying cPanel repository..."
+
+          curl --fail-with-body \
+            -H "Authorization: cpanel ${CPANEL_USERNAME}:${CPANEL_TOKEN}" \
+            "https://${CPANEL_HOST}:2083/execute/VersionControlDeployment/create?repository_root=${REPOSITORY_PATH}"
+
+          echo "Deployment completed."
