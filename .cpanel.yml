@@ -2,10 +2,9 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/ennvee1/demo.ennvee.com/
+    - export PATH=/opt/cpanel/ea-nodejs22/bin:$PATH
     - /usr/bin/rsync -av --delete --no-perms --no-owner --no-group --exclude='.git/' --exclude='.cpanel.yml' --exclude='my-app/node_modules/' --exclude='my-app/.next/' ./ $DEPLOYPATH
     - cd $DEPLOYPATH/my-app
     - /opt/cpanel/ea-nodejs22/bin/npm ci
     - /opt/cpanel/ea-nodejs22/bin/npm run build -- --webpack
-    - /bin/mkdir -p $DEPLOYPATH/my-app/tmp
-    - /bin/touch $DEPLOYPATH/my-app/tmp/restart.txt
     - /bin/chmod 755 $DEPLOYPATH
