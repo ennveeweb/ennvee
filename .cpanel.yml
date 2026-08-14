@@ -2,5 +2,7 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/ennvee1/demo.ennvee.com/
-    - /usr/bin/rsync -av --delete --no-perms --no-owner --no-group --exclude='.git/' --exclude='.cpanel.yml' ./ $DEPLOYPATH
+    - export APPPATH=/home/ennvee1/demo.ennvee.com/my-app/
+    - /usr/bin/rsync -av --delete --no-perms --no-owner --no-group --exclude='.git/' --exclude='.cpanel.yml' --exclude='my-app/.next/' --exclude='my-app/node_modules/' ./ $DEPLOYPATH
     - /bin/chmod 755 $DEPLOYPATH
+    - /bin/chmod 755 $APPPATH
